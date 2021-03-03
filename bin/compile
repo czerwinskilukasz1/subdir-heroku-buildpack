@@ -23,6 +23,37 @@ if [ -f $ENV_DIR/PROJECT_PATH ]; then
 		cp -R $TMP_DIR/. $BUILD_DIR/
 		echo "       cleaning tmp dir $TMP_DIR"
 		rm -rf $TMP_DIR
+		if [ -f "$BUILD_DIR/package-lock.json" -a -f "$BUILD_DIR/yarn.lock" ] ; then
+			echo "       Warning!"
+			echo "       Detected two files defining project dependencies:"
+			echo "       - npm: package-lock.json"
+			echo "       - yarn: yarn.lock"
+			echo "       Trying to build ends with:"
+			cat <<EOF
+			remote: -----> Build failed
+remote:  !     Two different lockfiles found: package-lock.json and yarn.lock
+remote: 
+remote:        Both npm and yarn have created lockfiles for this application,
+remote:        but only one can be used to install dependencies. Installing
+remote:        dependencies using the wrong package manager can result in missing
+remote:        packages or subtle bugs in production.
+remote: 
+remote:        - To use npm to install your application's dependencies please delete
+remote:          the yarn.lock file.
+remote: 
+remote:          $ git rm yarn.lock
+remote: 
+remote:        - To use yarn to install your application's dependences please delete
+remote:          the package-lock.json file.
+remote: 
+remote:          $ git rm package-lock.json
+remote:     
+remote:        https://help.heroku.com/0KU2EM53
+EOF
+			echo "       prefering yarn"
+			echo "       cleaning tmp dir $BUILD_DIR/package-lock.json"
+			rm  "$BUILD_DIR/package-lock.json"
+		fi
 		exit 0
 	fi
 fi
