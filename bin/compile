@@ -50,9 +50,9 @@ remote:          $ git rm package-lock.json
 remote:     
 remote:        https://help.heroku.com/0KU2EM53
 EOF
-			echo "       prefering yarn"
+			echo "       prefering npm"
 			echo "       cleaning tmp dir $BUILD_DIR/package-lock.json"
-			rm  "$BUILD_DIR/package-lock.json"
+			rm  "$BUILD_DIR/yarn.lock"
 		fi
 		exit 0
 	fi

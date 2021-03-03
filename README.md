@@ -1,6 +1,6 @@
 Add as a first buildpack in the chain. Set `PROJECT_PATH` environment variable to point to project root. It will be promoted to slug's root, everything else will be erased. Following buildpack (e.g. nodejs) will finish slug compilation.
 
-ADDED: It'll REMOVE your npm dependencies (package-lock.json) if yarn dependencies file also exists (yarn.lock)
+**ADDED**: It'll REMOVE your yarn dependencies (yarn.lock) if npm dependencies file also exists (package-lock.json).
 
 **Disclaimer:** I may change the code without notice, so always pin to specific github version. Provided as is.
 
@@ -13,4 +13,4 @@ ADDED: It'll REMOVE your npm dependencies (package-lock.json) if yarn dependenci
 
 # How it works
 The buildpack takes subdirectory you configured, erases everything else, and copies that subdirectory to project root. Then normal Heroku slug compilation proceeds.
-It REMOVES package-lock.json if yarn.lock also exists.
+It REMOVES yarn.lock if package-lock.json also exists.
